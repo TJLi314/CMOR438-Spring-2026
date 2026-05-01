@@ -8,7 +8,7 @@ version = "0.1.0"
 description = "Machine Learning Package for CMOR438"
 authors = [{ name = "Tianjian Li", email = "tl107@rice.edu"}]
 readme = "README.md"
-requires-python = ">=3.9"
+requires-python = ">=3.10"
 license = {text = "MIT"}
 dependencies = ["numpy", "matplotlib", "seaborn", "pandas"]
 
