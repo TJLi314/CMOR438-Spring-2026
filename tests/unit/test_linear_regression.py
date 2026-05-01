@@ -1,7 +1,7 @@
 import numpy as np
 import pytest
 
-from rice_ml import LinearRegression  # change this import
+from rice_ml import LinearRegression
 
 
 # -----------------------------
