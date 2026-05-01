@@ -18,7 +18,7 @@ class Perceptron:
         self.epochs = epochs
         self.weights_ = None
         self.errors_ = []
-        np.random.seed(777)
+        np.random.seed(42)
         
     def train(self, X, y):
         """
@@ -40,7 +40,7 @@ class Perceptron:
             
             # Iterate throught he samples one by one
             for xi, target in zip(X, y):
-                update = self.learning_rate * (target - self.predict(xi))
+                update = self.learning_rate * (self.predict(xi) - target)
                 
                 # weight update
                 self.weights_[:-1] -= update * xi
