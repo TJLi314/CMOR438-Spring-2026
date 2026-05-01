@@ -1,2 +1,3 @@
 from .supervised_learning.perceptron import Perceptron
 from .supervised_learning.linear_regression import LinearRegression
+from .supervised_learning.logistic_regression import LogisticRegression
