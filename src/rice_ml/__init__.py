@@ -5,3 +5,4 @@ from .supervised_learning.k_nearest_neightbors import KNN
 
 from .unsupervised_learning.k_means_clustering import KMeans
 from .unsupervised_learning.dbscan import DBSCAN
+from .unsupervised_learning.pca import PCA
