@@ -73,69 +73,47 @@ class KNN:
         
         return self
     
-    def predict(self, xi):
+    def predict(self, X):
         """
-        Predict the output for a single input sample.
+        Predict outputs for one or more input samples.
 
         Parameters
         ----------
-        xi : np.ndarray of shape (n_features,)
-            Input feature vector.
+        X : np.ndarray of shape (n_features,) or (n_samples, n_features)
 
         Returns
         -------
-        int or float
-            Predicted class label (classification) or value (regression).
+        np.ndarray or scalar
         """
-        # Ensure model has been trained
         if self.X_train is None or self.y_train is None:
             raise ValueError("Model has not been trained yet.")
 
-        # Ensure k is valid
         if self.k > len(self.X_train):
             raise ValueError("k cannot be larger than number of training samples")
-        
-        neighbors = []
-        
-        # Compute distance from xi to every training point
-        for p, label in zip(self.X_train, self.y_train):
-            d = self.distance(xi, p)
 
-            # Store point, label, and distance
-            temp_data = [p, label, d]
-            neighbors.append(temp_data)
-        
-        # Sort neighbors by distance (ascending)
-        neighbors.sort(key=lambda x: x[-1])
+        X = np.atleast_2d(X)
+        results = []
 
-        # Select k nearest neighbors
-        neighbors = neighbors[:self.k]
-        
-        # Classification: majority vote
-        if self.regression == False:
-            labels = [x[1] for x in neighbors]
-            return max(labels, key=labels.count)
-        
-        # Regression: average of neighbor values
-        else:
-            return sum(x[1] for x in neighbors) / self.k
+        for xi in X:
+            neighbors = []
 
-    def predict_multiple(self, X):
-        """
-        Predict outputs for multiple input samples.
+            for p, label in zip(self.X_train, self.y_train):
+                d = self.distance(xi, p)
+                neighbors.append((label, d))
 
-        Parameters
-        ----------
-        X : array-like of shape (n_samples, n_features)
-            Input feature matrix.
+            neighbors.sort(key=lambda x: x[1])
+            neighbors = neighbors[:self.k]
 
-        Returns
-        -------
-        np.ndarray of shape (n_samples,)
-            Predicted labels or values for each input sample.
-        """
-        # Apply predict() to each sample
-        return np.array([self.predict(xi) for xi in X])
+            if not self.regression:
+                labels = [x[0] for x in neighbors]
+                pred = max(labels, key=labels.count)
+            else:
+                pred = sum(x[0] for x in neighbors) / self.k
+
+            results.append(pred)
+
+        results = np.array(results)
+        return results
 
     def classification_error(self, X, y):
         """
@@ -154,7 +132,7 @@ class KNN:
             Proportion of incorrectly classified samples.
         """
         # Generate predictions for all samples
-        preds = self.predict_multiple(X)
+        preds = self.predict(X)
 
         # Compute fraction of incorrect predictions
         return np.mean(preds != y)
