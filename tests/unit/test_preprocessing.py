@@ -1,7 +1,7 @@
 import numpy as np
 import pytest
 
-from rice_ml import StandardScaler, train_test_split
+from rice_ml import StandardScaler, train_test_split, LabelEncoder
 
 
 # ----------------------------
@@ -97,3 +97,74 @@ def test_train_test_split_stratify():
     assert np.sum(y_train == 1) == 3
     assert np.sum(y_test == 0) == 2
     assert np.sum(y_test == 1) == 2
+    
+def test_label_encoder_fit():
+    y = np.array(["cat", "dog", "cat", "bird"])
+
+    le = LabelEncoder()
+    le.fit(y)
+
+    assert set(le.classes_) == {"cat", "dog", "bird"}
+    assert len(le.classes_) == 3
+
+
+def test_label_encoder_transform():
+    y = np.array(["cat", "dog", "cat", "bird"])
+
+    le = LabelEncoder()
+    le.fit(y)
+
+    encoded = le.transform(y)
+
+    # Ensure deterministic mapping
+    assert len(np.unique(encoded)) == 3
+    assert set(encoded) == {0, 1, 2}
+
+
+def test_label_encoder_fit_transform_equivalence():
+    y = np.array(["a", "b", "a", "c"])
+
+    le = LabelEncoder()
+
+    a = le.fit_transform(y)
+
+    le2 = LabelEncoder()
+    le2.fit(y)
+    b = le2.transform(y)
+
+    assert np.array_equal(a, b)
+
+
+def test_label_encoder_inverse_transform():
+    y = np.array(["red", "blue", "green", "red"])
+
+    le = LabelEncoder()
+    encoded = le.fit_transform(y)
+    decoded = le.inverse_transform(encoded)
+
+    assert np.array_equal(decoded, y)
+
+
+def test_label_encoder_transform_before_fit():
+    le = LabelEncoder()
+    y = np.array(["a", "b"])
+
+    with pytest.raises(ValueError):
+        le.transform(y)
+
+
+def test_label_encoder_inverse_before_fit():
+    le = LabelEncoder()
+
+    with pytest.raises(ValueError):
+        le.inverse_transform(np.array([0, 1]))
+
+
+def test_label_encoder_consistency():
+    y = np.array(["x", "y", "z", "x", "y"])
+
+    le = LabelEncoder()
+    encoded = le.fit_transform(y)
+    decoded = le.inverse_transform(encoded)
+
+    assert np.array_equal(decoded, y)

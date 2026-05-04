@@ -75,15 +75,16 @@ class KNN:
     
     def predict(self, X):
         """
-        Predict outputs for one or more input samples.
+        Fully vectorized prediction for KNN.
 
         Parameters
         ----------
-        X : np.ndarray of shape (n_features,) or (n_samples, n_features)
+        X : np.ndarray of shape (n_samples, n_features)
 
         Returns
         -------
-        np.ndarray or scalar
+        np.ndarray
+            Predicted labels or regression values.
         """
         if self.X_train is None or self.y_train is None:
             raise ValueError("Model has not been trained yet.")
@@ -92,29 +93,30 @@ class KNN:
             raise ValueError("k cannot be larger than number of training samples")
 
         X = np.atleast_2d(X)
-        results = []
 
-        for xi in X:
-            neighbors = []
+        X_sq = np.sum(X ** 2, axis=1, keepdims=True)          # (n_test, 1)
+        train_sq = np.sum(self.X_train ** 2, axis=1)          # (n_train,)
+        cross = X @ self.X_train.T                            # (n_test, n_train)
 
-            for p, label in zip(self.X_train, self.y_train):
-                d = self.distance(xi, p)
-                neighbors.append((label, d))
+        dists = np.sqrt(X_sq - 2 * cross + train_sq)          # broadcasted
 
-            neighbors.sort(key=lambda x: x[1])
-            neighbors = neighbors[:self.k]
+        knn_indices = np.argpartition(dists, self.k, axis=1)[:, :self.k]
 
-            if not self.regression:
-                labels = [x[0] for x in neighbors]
-                pred = max(labels, key=labels.count)
-            else:
-                pred = sum(x[0] for x in neighbors) / self.k
+        knn_labels = self.y_train[knn_indices]
 
-            results.append(pred)
 
-        results = np.array(results)
-        return results
+        if not self.regression:
+            # Majority vote (vectorized)
+            preds = np.array([
+                np.bincount(row.astype(int)).argmax()
+                for row in knn_labels
+            ])
+        else:
+            # Mean for regression
+            preds = np.mean(knn_labels, axis=1)
 
+        return preds
+    
     def classification_error(self, X, y):
         """
         Compute classification error rate.

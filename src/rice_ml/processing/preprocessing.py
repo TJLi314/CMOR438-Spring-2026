@@ -96,3 +96,77 @@ def train_test_split(X, y, test_size=0.2, shuffle=True, random_state=None, strat
         train_indices = indices[test_count:]
 
     return X[train_indices], X[test_indices], y[train_indices], y[test_indices]
+
+
+class LabelEncoder:
+    """
+    Encode categorical labels as integers.
+
+    Example:
+        ["cat", "dog", "cat"] -> [0, 1, 0]
+    """
+
+    def __init__(self):
+        self.classes_ = None
+        self.class_to_index_ = None
+
+    def fit(self, y):
+        """
+        Learn mapping from classes to integers.
+
+        Parameters
+        ----------
+        y : array-like
+            Input labels
+        """
+        y = np.asarray(y)
+
+        self.classes_ = np.unique(y)
+        self.class_to_index_ = {
+            cls: idx for idx, cls in enumerate(self.classes_)
+        }
+
+        return self
+
+    def transform(self, y):
+        """
+        Convert labels to integers.
+
+        Parameters
+        ----------
+        y : array-like
+
+        Returns
+        -------
+        np.ndarray
+        """
+        y = np.asarray(y)
+
+        if self.class_to_index_ is None:
+            raise ValueError("LabelEncoder has not been fitted yet.")
+
+        return np.array([self.class_to_index_[label] for label in y])
+
+    def fit_transform(self, y):
+        """
+        Fit and transform in one step.
+        """
+        return self.fit(y).transform(y)
+
+    def inverse_transform(self, y):
+        """
+        Convert integers back to original labels.
+
+        Parameters
+        ----------
+        y : array-like of int
+
+        Returns
+        -------
+        np.ndarray
+        """
+        if self.classes_ is None:
+            raise ValueError("LabelEncoder has not been fitted yet.")
+
+        y = np.asarray(y)
+        return np.array([self.classes_[i] for i in y])
