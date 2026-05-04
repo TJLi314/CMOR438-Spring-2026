@@ -295,25 +295,9 @@ class MLP:
 
         return grads, dW_out, db_out
 
-    def train(self, X, y, steps=10000, verbose=True):
-        """
-        Train network using gradient descent.
+    def train(self, X, y, steps=10000, verbose=True, track_loss=False):
+        loss_history = []
 
-        Parameters
-        ----------
-        X : np.ndarray
-            Training features.
-        y : np.ndarray
-            Training labels.
-        steps : int
-            Number of training iterations.
-        verbose : bool
-            Whether to print loss periodically.
-
-        Returns
-        -------
-        None
-        """
         for t in range(steps):
             grads, dW_out, db_out = self.backward(X, y)
 
@@ -324,8 +308,13 @@ class MLP:
                 self.blocks[i].W -= self.lr * dW
                 self.blocks[i].b -= self.lr * db
 
+            if track_loss and t % 50 == 0:
+                loss_history.append(self.loss(X, y))
+
             if verbose and t % 1000 == 0:
                 print(f"step {t}, loss = {self.loss(X, y):.4f}")
+
+        return loss_history
 
     def predict(self, X):
         """
