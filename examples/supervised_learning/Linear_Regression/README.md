@@ -63,43 +63,6 @@ This project uses the **Diabetes Dataset** from scikit-learn, a standard regress
 
 ---
 
-
-# 🧠 Project Workflow
-
-The notebook demonstrates a full machine learning pipeline:
-
-1. Load dataset
-2. Standardize features
-3. Split into training and test sets
-4. Train Linear Regression model using:
-   - OLS (closed-form solution)
-   - Gradient Descent (iterative optimization)
-5. Evaluate performance
-6. Visualize results
-
----
-
-# 📈 Outputs
-
-The model produces:
-
-- Learned weight vector (w)
-- Bias term (b)
-- Predictions (y_hat)
-- Training loss curve (for GD)
-
----
-
-# 📉 Evaluation Metric
-
-## Mean Squared Error (MSE)
-
-Used to measure prediction quality:
-- Lower values indicate better performance
-- Penalizes large prediction errors more heavily
-
----
-
 # 📊 Key Visualizations
 
 The notebook includes:
