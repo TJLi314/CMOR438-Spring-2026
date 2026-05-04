@@ -37,7 +37,7 @@ This process is repeated over multiple epochs until convergence or until the max
 
 This project demonstrates the Perceptron on real-world binary classification data:
 
-### :contentReference[oaicite:0]{index=0}
+We use the Breast Cancer Wisconsin Dataset, which contains features computed from digitized images of breast mass samples.
 
 ### Dataset Description:
 - 30 numerical features
