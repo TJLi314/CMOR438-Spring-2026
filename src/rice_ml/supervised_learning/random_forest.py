@@ -69,7 +69,7 @@ class RandomForestClassifier:
         # Use sqrt(n_features) features by default (classic RF behavior)
         if self.feature_mode == "sqrt":
             k = max(1, int(np.sqrt(n_features)))
-            return np.random.choice(n_features, k, replace=False)
+            return self._rng.choice(n_features, k, replace=False)
 
         # Otherwise use all features
         return np.arange(n_features)
@@ -90,7 +90,7 @@ class RandomForestClassifier:
         self : RandomForestClassifier
             Fitted model.
         """
-        rng = np.random.default_rng(self.seed)
+        self._rng = np.random.default_rng(self.seed)
         self._forest = []
 
         n_samples, n_features = X.shape
@@ -99,7 +99,7 @@ class RandomForestClassifier:
         for _ in range(self.n_trees):
 
             # Bootstrap sampling (sample with replacement)
-            boot_idx = rng.integers(0, n_samples, size=n_samples)
+            boot_idx = self._rng.integers(0, n_samples, size=n_samples)
             X_boot = X[boot_idx]
             y_boot = y[boot_idx]
 
