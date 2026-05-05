@@ -3,7 +3,7 @@ name: 🐛 Bug Report
 about: Report something that is broken or producing incorrect results
 title: "[Bug] "
 labels: bug
-assignees: <your-profile-name>
+assignees: <TJLi314>
 ---
 
 ## 🐛 Bug Summary
