@@ -179,6 +179,8 @@ pytest
 
 Clone the repository and install locally:
 
+-Note: It is recommended that a virtual environment is installed and active in the root directory (CMOR438-Spring-2026) before running 'pip install -e .'
+
 ```bash
 git clone <repo_url>
 cd CMOR438-Spring-2026
@@ -189,11 +191,18 @@ pip install -e .
 
 ### Development installation (includes testing tools)
 
+-Note: It is recommended that a virtual environment is installed and active in the root directory (CMOR438-Spring-2026) before running 'pip install -e . "[.dev]"'
+
 ```bash
 git clone <repo_url>
 cd CMOR438-Spring-2026
-pip install -e .[dev]
+pip install -e ".[dev]"
 ```
 
 This installs:
 - `pytest` for running unit tests
+
+---
+
+Note: The repository name (`CMOR438-Spring-2026`) may differ from the installable Python package name (`rice_ml`).
+After installation, always import using `rice_ml`.
