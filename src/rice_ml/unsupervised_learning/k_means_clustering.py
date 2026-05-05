@@ -68,10 +68,18 @@ class KMeans:
             # Assign each point to the nearest centroid
             labels = self.cluster_assign(X)
 
-            # Compute new centroids as the mean of assigned points
-            centroids_new = np.array([
-                X[labels == k].mean(axis=0) for k in range(self.K)
-            ])
+            centroids_new = []
+
+            for k in range(self.K):
+                points = X[labels == k]
+
+                if len(points) == 0:
+                    # reinitialize to a random data point
+                    centroids_new.append(X[np.random.randint(0, X.shape[0])])
+                else:
+                    centroids_new.append(points.mean(axis=0))
+
+            centroids_new = np.array(centroids_new)
             
             # Check for convergence (centroid movement is small)
             if np.linalg.norm(centroids_new - self.centroids) < self.tol:
