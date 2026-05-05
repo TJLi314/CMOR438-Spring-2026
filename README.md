@@ -181,7 +181,7 @@ Clone the repository and install locally:
 
 ```bash
 git clone <repo_url>
-cd rice_ml
+cd CMOR438-Spring-2026
 pip install -e .
 ```
 
@@ -191,7 +191,7 @@ pip install -e .
 
 ```bash
 git clone <repo_url>
-cd rice_ml
+cd CMOR438-Spring-2026
 pip install -e .[dev]
 ```
 
