@@ -20,6 +20,7 @@ matplotlib==3.10.9
 matplotlib-inline==0.2.1
 mlxtend==0.24.0
 nest-asyncio==1.6.0
+networkx==3.6.1
 numpy==2.4.4
 packaging==26.2
 pandas==3.0.2
@@ -37,7 +38,7 @@ pyparsing==3.3.2
 pytest==9.0.3
 python-dateutil==2.9.0.post0
 pyzmq==27.1.0
--e git+https://github.com/TJLi314/INDE577-Spring-2026.git@d57ead92ab8f53827bee72836088bd28685247d7#egg=rice_ml
+-e git+https://github.com/TJLi314/INDE577-Spring-2026.git@8043793d3269478eb3182f4f5d78c08f6d86fd12#egg=rice_ml
 scikit-learn==1.8.0
 scipy==1.17.1
 seaborn==0.13.2
