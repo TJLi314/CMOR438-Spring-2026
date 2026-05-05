@@ -32,7 +32,7 @@ source .venv/bin/activate      # macOS / Linux
 If needed, install core dependencies manually:
 
 ```bash
-pip install numpy pandas matplotlib pytest scikit-learn
+pip install numpy pandas matplotlib pytest scikit-learn mlxtend
 ```
 
 ---
